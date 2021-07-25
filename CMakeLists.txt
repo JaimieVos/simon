@@ -1,7 +1,5 @@
 cmake_minimum_required(VERSION 3.17)
 
-set(CMAKE_GENERATOR_PLATFORM win32)
-
 project(simon)
 
 set(CMAKE_CXX_STANDARD 20)
@@ -17,7 +15,6 @@ include_directories(${SDL2_INCLUDE_DIR}
         ${SDL2_IMAGE_INCLUDE_DIR}
         ${SDL2_MIXER_INCLUDE_DIR}
         ${SDL2_TTF_INCLUDE_DIR}
-        ${WASE_ENGINE_INCLUDE_DIR}
 )
 
 add_executable(simon
@@ -65,5 +62,11 @@ target_link_libraries(simon ${SDL2_LIBRARY}
         ${SDL2_IMAGE_LIBRARIES}
         ${SDL2_MIXER_LIBRARIES}
         ${SDL2_TTF_LIBRARIES}
-        ${WASE_ENGINE_LIBRARIES}
 )
+
+add_subdirectory(${CMAKE_SOURCE_DIR}/wase-engine EXCLUDE_FROM_ALL)
+target_link_libraries(simon wase-engine)
+
+if(MINGW)
+    target_link_libraries(simon mingw32)
+endif(MINGW)
